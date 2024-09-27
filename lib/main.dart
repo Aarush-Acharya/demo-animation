@@ -23,14 +23,14 @@ class _DemoAppState extends State<DemoApp> {
               bottomPadding = 0;
               rightPadding = 0;
             });
-            await Future.delayed(Duration(milliseconds: 100));
+            await Future.delayed(const Duration(milliseconds: 100));
             setState(() {
               bottomPadding = 6;
               rightPadding = 4;
             });
           },
           child: AnimatedContainer(
-            duration: Duration(
+            duration: const Duration(
               milliseconds: 100,
             ),
             padding:
@@ -40,15 +40,15 @@ class _DemoAppState extends State<DemoApp> {
               color: const Color.fromARGB(255, 43, 42, 42),
             ),
             child: Container(
-              constraints: BoxConstraints(maxHeight: 60, maxWidth: 200),
-              child: Center(
+              constraints: const BoxConstraints(maxHeight: 60, maxWidth: 200),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color.fromARGB(255, 63, 224, 146)),
+              child: const Center(
                   child: Text(
                 "Verify Phone",
                 style: TextStyle(color: Colors.black, fontSize: 18),
               )),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: const Color.fromARGB(255, 63, 224, 146)),
             ),
           ),
         ),
