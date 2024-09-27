@@ -42,6 +42,7 @@ class _DemoAppState extends State<DemoApp> {
             child: Container(
               constraints: const BoxConstraints(maxHeight: 60, maxWidth: 200),
               decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
                   borderRadius: BorderRadius.circular(20),
                   color: const Color.fromARGB(255, 63, 224, 146)),
               child: const Center(
