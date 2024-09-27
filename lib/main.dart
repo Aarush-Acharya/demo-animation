@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MaterialApp(home: const LogoApp()));
+void main() => runApp(const MaterialApp(home: LogoApp()));
 
 class LogoApp extends StatefulWidget {
   const LogoApp({super.key});
@@ -42,15 +42,6 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
   }
-
-  void _onTapDown(TapDownDetails details) {
-    _controller.forward(); // Start the press animation
-  }
-
-  void _onTapUp(TapUpDetails details) {
-    _controller.reverse(); // Return to the original state
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
