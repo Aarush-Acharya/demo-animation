@@ -1,47 +1,17 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MaterialApp(home: LogoApp()));
+void main() => runApp(const MaterialApp(home: DemoApp()));
 
-class LogoApp extends StatefulWidget {
-  const LogoApp({super.key});
+class DemoApp extends StatefulWidget {
+  const DemoApp({super.key});
 
   @override
-  State<LogoApp> createState() => _LogoAppState();
+  State<DemoApp> createState() => _DemoAppState();
 }
 
-class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _scaleShadowAnimation;
-  late Animation<Offset> _positionAnimation;
-  late Animation<Offset> _positionShadowAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 100),
-    );
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-
-    _positionAnimation =
-        Tween<Offset>(begin: Offset.zero, end: const Offset(0.05, 0.05))
-            .animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-
-    _scaleShadowAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-    _positionShadowAnimation =
-        Tween<Offset>(begin: Offset.zero, end: const Offset(0.03, 0.0)).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-  }
+class _DemoAppState extends State<DemoApp> {
+  double bottomPadding = 6;
+  double rightPadding = 4;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,70 +19,40 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
       body: Center(
         child: GestureDetector(
           onTap: () async {
-            await _controller.forward();
-            await _controller.reverse();
+            setState(() {
+              bottomPadding = 0;
+              rightPadding = 0;
+            });
+            await Future.delayed(Duration(milliseconds: 100));
+            setState(() {
+              bottomPadding = 6;
+              rightPadding = 4;
+            });
           },
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 12, left: 8),
-                child: SlideTransition(
-                  position: _positionShadowAnimation,
-                  child: ScaleTransition(
-                    scale: _scaleShadowAnimation,
-                    child: Container(
-                      height: 60,
-                      width: 200,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Press Me',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SlideTransition(
-                position: _positionAnimation,
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: Container(
-                    height: 60,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                      color: Colors.greenAccent,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Verify Phone',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          child: AnimatedContainer(
+            duration: Duration(
+              milliseconds: 100,
+            ),
+            padding:
+                EdgeInsets.only(bottom: bottomPadding, right: rightPadding),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: const Color.fromARGB(255, 43, 42, 42),
+            ),
+            child: Container(
+              constraints: BoxConstraints(maxHeight: 60, maxWidth: 200),
+              child: Center(
+                  child: Text(
+                "Verify Phone",
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              )),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color.fromARGB(255, 63, 224, 146)),
+            ),
           ),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }
