@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class AnimatedButton extends StatefulWidget {
-  double verticalShadow;
-  double horizontalShadow;
-  String buttonText;
+  final double verticalShadow; // Mark fields as final
+  final double horizontalShadow; // Mark fields as final
+  final String buttonText; // Mark fields as final
 
-  AnimatedButton({
+  const AnimatedButton({
     super.key,
     this.verticalShadow = 6.0, // Set the default value here
     this.horizontalShadow = 4.0, // Set the default value here
-    required this.buttonText
+    required this.buttonText,
   });
 
   @override
@@ -17,26 +17,38 @@ class AnimatedButton extends StatefulWidget {
 }
 
 class _AnimatedButtonState extends State<AnimatedButton> {
+  // Mutable state variables
+  late double currentVerticalShadow;
+  late double currentHorizontalShadow;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize state with widget properties
+    currentVerticalShadow = widget.verticalShadow;
+    currentHorizontalShadow = widget.horizontalShadow;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        double placeholderVertical = widget.verticalShadow;
-        double placeholderHorizontal = widget.horizontalShadow;
+        double placeholderVertical = currentVerticalShadow;
+        double placeholderHorizontal = currentHorizontalShadow;
         setState(() {
-          widget.verticalShadow = 0;
-          widget.horizontalShadow = 0;
+          currentVerticalShadow = 0;
+          currentHorizontalShadow = 0;
         });
         await Future.delayed(const Duration(milliseconds: 100));
         setState(() {
-          widget.verticalShadow = placeholderVertical;
-          widget.horizontalShadow = placeholderHorizontal;
+          currentVerticalShadow = placeholderVertical;
+          currentHorizontalShadow = placeholderHorizontal;
         });
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 100),
         padding: EdgeInsets.only(
-            bottom: widget.verticalShadow, right: widget.horizontalShadow),
+            bottom: currentVerticalShadow, right: currentHorizontalShadow),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: const Color.fromARGB(255, 43, 42, 42),
@@ -49,7 +61,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
               color: const Color.fromARGB(255, 63, 224, 146)),
           child: Center(
               child: Text(
-                widget.buttonText,
+            widget.buttonText, // Use the widget's immutable property
             style: const TextStyle(color: Colors.black, fontSize: 18),
           )),
         ),
